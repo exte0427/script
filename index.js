@@ -15,7 +15,7 @@ const functions=[
 {str:".size",
 replaceStr:".length",
 functionis:`
-//none`},
+`},
 ];
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
@@ -144,6 +144,10 @@ function decode(code){
 }
 function err(msg){throw new Error(msg);}
 function run(data){
+    let strs="";
+    for(let i=0;i<functions.length;i++){
+        
+    }
     return eval(decode(compiler(transform(stringdel(data)).split("\n"))));
 }
 function transform(data){
