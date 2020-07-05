@@ -16,6 +16,10 @@ const functions=[
 replaceStr:".length",
 functionis:`
 `},
+{str:".location(<>)",
+replaceStr:".indexOf(<data1>)",
+functionis:`
+`},
 ];
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
@@ -146,9 +150,9 @@ function err(msg){throw new Error(msg);}
 function run(data){
     let strs="";
     for(let i=0;i<functions.length;i++){
-        
+        strs=strs+functions[i].functionis+"\n";
     }
-    return eval(decode(compiler(transform(stringdel(data)).split("\n"))));
+    return eval(decode(compiler(transform(stringdel(data+"\n"+strs)).split("\n"))));
 }
 function transform(data){
     data="\n"+data+"\n"
@@ -261,7 +265,16 @@ function operator(dt){
                 if(dt.compare(functions[i].str)!=true){
                     break;
                 }
-                dt=dt.replace(dt.strcut(dt.index(functions[i].str)[0],dt.index(functions[i].str)[1]),functions[i].replaceStr);
+                let strr=functions[i].replaceStr;
+                let s=1;
+                while(true){
+                    if(strr.indexOf("<data")==-1){
+                        break;
+                    }
+                    strr=strr.replace("<data"+s+">",dt.data(functions[i].str)[s]);
+                    s++;
+                }
+                dt=dt.replace(dt.strcut(dt.index(functions[i].str)[0],dt.index(functions[i].str)[1]),strr);
             }
         }
     }
@@ -295,6 +308,6 @@ function operator(dt){
 }
 //실행하는곳
 run(`
-repeat a to \`10\`.size
-  log a
+repeat a to \`10\`.location(\`0\`)
+  
 `);
