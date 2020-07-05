@@ -19,6 +19,35 @@ ttttt=ttttt.split("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃�
 for(let i=0;i<ttttt.length;i++){
     functions.push({"str":ttttt[i].split("\r\n")[0].split(" = ")[0],"replaceStr":ttttt[i].split("\r\n")[0].split(" = ")[1],"functionis":ttttt[i].replace(ttttt[i].split("\r\n")[0],"")});
 }
+//컴파일러 생성
+let ccccc=fs.readFileSync('./index.js', 'utf8');
+ccccc=ccccc.split("\n");
+let dfsdf="";
+for(let i=0;i<ccccc.length;i++){
+    let ddd=0;
+    let pasd="";
+    for(let j=0;j<ccccc[i].length;j++){
+        if(ccccc[i].charAt(j)!=" "){ddd=1;}
+        if(ddd==1){pasd=pasd+ccccc[i].charAt(j);}
+    }
+    dfsdf=dfsdf+pasd;
+}
+dfsdf=dfsdf.split("\r");
+let strtt="";
+for(let i=0;i<dfsdf.length;i++){
+    let yyystr="";
+    for(let j=0;j<dfsdf[i].length;j++){
+        if(dfsdf[i].charAt(j)+dfsdf[i].charAt(j+1)=="//"){
+            break;
+        }
+        yyystr=yyystr+dfsdf[i].charAt(j);
+    }
+    strtt=strtt+yyystr;
+}
+fs.writeFile('./compiler.js', strtt, 'utf-8', function(err, data) {
+    if (err) throw err;
+    console.log("d")
+})
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
     let returnSTR="";
