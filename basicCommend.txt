@@ -1,20 +1,12 @@
-String.prototype.index = function(a){
-    let t=a.split(">");
-    let str=this;
-    let th;
-    let first=-1;
-    for(let i=0;i<t.length;i++){
-        th=t[i].split("<")[0];
-        if(first==-1){first=th}
-        console.log(th);
-        if(str.indexOf(th)!=-1){
-            //str=str.replace(th,"");
-        }
-        else{
-            return false;
-        }
-    }
-    console.log(th);
-    return [str.indexOf(first),str.indexOf(th)+th.length]-1;
-}
-"hello world".index("world")
+repeat <> to <>
+for(let <data1>=1;<data1><<data2>+1;<data1>++){
+
+repeat <> in <>
+for(let <data1>=0;<data1><<data2>.length;<data1>++){
+
+repeat <> to <>,<>
+for(let <data1>=<data2>;<data1><<data3>+1;<data1>++){
+
+＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃
+test
+console.log("TEEEEEEEST");

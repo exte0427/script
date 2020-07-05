@@ -1,16 +1,4 @@
 //code를 정의 하는곳
-const codes=[
-    {
-        //변수선언
-        str:["const <>=<>"],
-        datas:["for(let <data1>=1;<data1><<data2>+1;<data1>++){","for(let <data1>=0;<data1><<data2>.length;<data1>++){","for(let <data1>=<data2>;<data1><<data3>+1;<data1>++){"]
-    },
-    {
-        //반복문
-        str:["repeat <> to <>","repeat <> in <>","repeat <> to <>,<>"],
-        datas:["for(let <data1>=1;<data1><<data2>+1;<data1>++){","for(let <data1>=0;<data1><<data2>.length;<data1>++){","for(let <data1>=<data2>;<data1><<data3>+1;<data1>++){"]
-    },
-];
 const functions=[
 {str:".size",
 replaceStr:".length",
@@ -21,6 +9,19 @@ replaceStr:".indexOf(<data1>)",
 functionis:`
 `},
 ];
+//명령어 읽는 곳
+const fs = require('fs');
+codes=[];
+let tiasdoo=fs.readFileSync('./basicCommend.txt', 'utf8');
+tiasdoo=tiasdoo.split("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃");
+for(let i=0;i<tiasdoo.length;i++){
+    let fdafsd=tiasdoo[i].split("\n\n");
+    for(let j=0;j<fdafsd.length;j++){
+        codes[i].str[j]=tiasdoo[j].split("\n")[0];
+        codes[i].datas[j]=tiasdoo[j].split("\n")[1];
+    }
+}
+console.log(codes);
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
     let returnSTR="";
