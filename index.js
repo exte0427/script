@@ -52,14 +52,14 @@ let strz="const functions=[";
 for(let i=0;i<functions.length;i++){
     strz=strz+"{";
     //str
-    strz=strz+"str:[";
-    strz=strz+"`"+functions[i].str+"`],";
+    strz=strz+"str:";
+    strz=strz+"`"+functions[i].str+"`,";
     //replacestr
-    strz=strz+"replaceStr:[";
-    strz=strz+"`"+functions[i].replaceStr+"`],";
+    strz=strz+"replaceStr:";
+    strz=strz+"`"+functions[i].replaceStr+"`,";
     //functionis
-    strz=strz+"functionis:[";
-    strz=strz+"`"+functions[i].functionis+"`],";
+    strz=strz+"functionis:";
+    strz=strz+"`"+functions[i].functionis+"`,";
     strz=strz+"},";
 }
 strz=strz+"];"
@@ -87,7 +87,7 @@ dfsdf=strz+strzz+dfsdf;
 let dd=dfsdf.split("\r\n");
 for(let i=0;i<dd.length;i++){
     if(dd[i].indexOf("//")!=-1){
-        dd[i]=dd[i].strcut(0,dd[i].indexOf("//")-1);
+        dd[i]=dd[i].replace("//","/*")+"*/";
     }
     if(dd[i].charAt(dd[i].length-1) != ";" && dd[i].charAt(dd[i].length-1)!="{"){
         if(dd[i+1]!=undefined){
@@ -392,5 +392,5 @@ function operator(dt){
 }
 //실행하는곳
 run(`
-oo
+\`10\`.size
 `);
