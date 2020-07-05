@@ -47,8 +47,52 @@ for(let i=0;i<ccccc.length;i++){
 const asdas="//필요한 함수를 불러오는 곳";
 const sfdsds="//실행하는곳";
 dfsdf=dfsdf.strcut(dfsdf.replace(asdas,"").indexOf(asdas)+14,dfsdf.replace(sfdsds,"").indexOf(sfdsds)+14);
-
-fs.writeFile('./compiler.js', dfsdf, 'utf-8', function(err, data) {
+//함수 로딩 추가
+let strz="const functions=[";
+for(let i=0;i<functions.length;i++){
+    strz=strz+"{";
+    //str
+    strz=strz+"str:[";
+    strz=strz+"`"+functions[i].str+"`],";
+    //replacestr
+    strz=strz+"replaceStr:[";
+    strz=strz+"`"+functions[i].replaceStr+"`],";
+    //functionis
+    strz=strz+"functionis:[";
+    strz=strz+"`"+functions[i].functionis+"`],";
+    strz=strz+"},";
+}
+strz=strz+"];"
+//기본 명령어 로딩 추가
+let strzz="const codes=[";
+for(let i=0;i<codes.length;i++){
+    strzz=strzz+"{";
+    //str
+    strzz=strzz+"str:[";
+    for(let j=0;j<codes[i].str.length;j++){
+        strzz=strzz+"`"+codes[i].str[j]+"`,";
+    }
+    strzz=strzz+"],";
+    //datas
+    strzz=strzz+"datas:[";
+    for(let j=0;j<codes[i].str.length;j++){
+        strzz=strzz+"`"+codes[i].datas[j]+"`,";
+    }
+    strzz=strzz+"],";
+    strzz=strzz+"},";
+}
+strzz=strzz+"];";
+dfsdf=strz+strzz+dfsdf;
+//압축
+let dd=dfsdf.split("\r\n");
+for(let i=0;i<dd.length;i++){
+    if(dd[i].charAt(dd[i].length-2) != ";" && dd[i].charAt(dd[i].length-2) !="}" && dd[i].charAt(dd[i].length-2)!="{"){
+        dd[i]=dd[i]+";";
+    }
+}
+dd=dd.join("");
+//end
+fs.writeFile('./compiler.js', dd, 'utf-8', function(err, data) {
     if (err) throw err;
 })
 //필요한 함수를 불러오는 곳
