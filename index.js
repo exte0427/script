@@ -89,8 +89,15 @@ for(let i=0;i<dd.length;i++){
     if(dd[i].indexOf("//")!=-1){
         dd[i]=dd[i].strcut(0,dd[i].indexOf("//")-1);
     }
-    if(dd[i].charAt(dd[i].length-1) != ";" && dd[i].charAt(dd[i].length-1) !="}" && dd[i].charAt(dd[i].length-1)!="{"){
-        dd[i]=dd[i]+";";
+    if(dd[i].charAt(dd[i].length-1) != ";" && dd[i].charAt(dd[i].length-1)!="{"){
+        if(dd[i+1]!=undefined){
+            if(dd[i+1].startsWith("else")==0){
+                dd[i]=dd[i]+";";
+            }
+        }
+        else{
+            dd[i]=dd[i]+";";
+        }
     }
 }
 dd=dd.join("");
