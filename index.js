@@ -150,7 +150,7 @@ function run(data){
     for(let i=0;i<functions.length;i++){
         strs=strs+functions[i].functionis+"\n";
     }
-    
+    eval(strs);
     return eval(decode(compiler(transform(stringdel(data)).split("\n"))));
 }
 function transform(data){
@@ -250,7 +250,7 @@ function compiler(a){
             if(br==1){break;}
         }
         if(br==0){
-            returns=a[i];
+            returns=operator(a[i]);
         }
         returnCode=returnCode+"\n"+returns;
     }
@@ -307,6 +307,5 @@ function operator(dt){
 }
 //실행하는곳
 run(`
-repeat a to \`10\`.location(\`0\`)
-  
+oo
 `);
