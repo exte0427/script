@@ -1,3 +1,12 @@
+//sad
+String.prototype.strcut = function(a,b){
+    let returnSTR="";
+    for(let i=a;i<=b;i++){
+        returnSTR=returnSTR+this.charAt(i);
+    }
+    return returnSTR;
+}
+
 //code를 정의 하는곳
 const codes=[];
 const functions=[]
@@ -30,23 +39,17 @@ for(let i=0;i<ccccc.length;i++){
         if(ccccc[i].charAt(j)!=" "){ddd=1;}
         if(ddd==1){pasd=pasd+ccccc[i].charAt(j);}
     }
-    dfsdf=dfsdf+pasd;
-}
-dfsdf=dfsdf.split("\r");
-let strtt="";
-for(let i=0;i<dfsdf.length;i++){
-    let yyystr="";
-    for(let j=0;j<dfsdf[i].length;j++){
-        if(dfsdf[i].charAt(j)+dfsdf[i].charAt(j+1)=="//"){
-            break;
-        }
-        yyystr=yyystr+dfsdf[i].charAt(j);
+    if(pasd.charAt(pasd.length)!=";" && pasd.charAt(pasd.length)!="{" ){
+        pasd=pasd;
     }
-    strtt=strtt+yyystr;
+    dfsdf=dfsdf+"\n"+pasd;
 }
-fs.writeFile('./compiler.js', strtt, 'utf-8', function(err, data) {
+const asdas="//필요한 함수를 불러오는 곳";
+const sfdsds="//실행하는곳";
+dfsdf=dfsdf.strcut(dfsdf.replace(asdas,"").indexOf(asdas)+14,dfsdf.replace(sfdsds,"").indexOf(sfdsds)+14);
+
+fs.writeFile('./compiler.js', dfsdf, 'utf-8', function(err, data) {
     if (err) throw err;
-    console.log("d")
 })
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
@@ -56,7 +59,6 @@ String.prototype.strcut = function(a,b){
     }
     return returnSTR;
 }
-
 String.prototype.index = function(a){
     let t=a.split(">");
     let str=this;
