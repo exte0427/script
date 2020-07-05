@@ -6,7 +6,6 @@ for(let <data1>=0;<data1><<data2>.length;<data1>++){
 
 repeat <> to <>,<>
 for(let <data1>=<data2>;<data1><<data3>+1;<data1>++){
-
 ＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃
 test
 console.log("TEEEEEEEST");

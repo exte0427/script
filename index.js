@@ -1,27 +1,24 @@
 //code를 정의 하는곳
-const functions=[
-{str:".size",
-replaceStr:".length",
-functionis:`
-`},
-{str:".location(<>)",
-replaceStr:".indexOf(<data1>)",
-functionis:`
-`},
-];
+const codes=[];
+const functions=[]
 //명령어 읽는 곳
 const fs = require('fs');
-codes=[];
 let tiasdoo=fs.readFileSync('./basicCommend.txt', 'utf8');
-tiasdoo=tiasdoo.split("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃");
+tiasdoo=tiasdoo.split("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃\r\n");
 for(let i=0;i<tiasdoo.length;i++){
-    let fdafsd=tiasdoo[i].split("\n\n");
+    codes.push({"str":[],"datas":[]});
+    let fdafsd=tiasdoo[i].split("\r\n\r\n");
     for(let j=0;j<fdafsd.length;j++){
-        codes[i].str[j]=tiasdoo[j].split("\n")[0];
-        codes[i].datas[j]=tiasdoo[j].split("\n")[1];
+        codes[i]["str"][j]=fdafsd[j].split("\r\n")[0];
+        codes[i]["datas"][j]=fdafsd[j].split("\r\n")[1];
     }
 }
-console.log(codes);
+//내장함수 읽는곳
+let ttttt=fs.readFileSync('./basicFunction.txt', 'utf8');
+ttttt=ttttt.split("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃\r\n");
+for(let i=0;i<ttttt.length;i++){
+    functions.push({"str":ttttt[i].split("\r\n")[0].split(" = ")[0],"replaceStr":ttttt[i].split("\r\n")[0].split(" = ")[1],"functionis":ttttt[i].replace(ttttt[i].split("\r\n")[0],"")});
+}
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
     let returnSTR="";
@@ -153,7 +150,8 @@ function run(data){
     for(let i=0;i<functions.length;i++){
         strs=strs+functions[i].functionis+"\n";
     }
-    return eval(decode(compiler(transform(stringdel(data+"\n"+strs)).split("\n"))));
+    
+    return eval(decode(compiler(transform(stringdel(data)).split("\n"))));
 }
 function transform(data){
     data="\n"+data+"\n"
