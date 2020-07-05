@@ -1,0 +1,20 @@
+String.prototype.index = function(a){
+    let t=a.split(">");
+    let str=this;
+    let th;
+    let first=-1;
+    for(let i=0;i<t.length;i++){
+        th=t[i].split("<")[0];
+        if(first==-1){first=th}
+        console.log(th);
+        if(str.indexOf(th)!=-1){
+            //str=str.replace(th,"");
+        }
+        else{
+            return false;
+        }
+    }
+    console.log(th);
+    return [str.indexOf(first),str.indexOf(th)+th.length]-1;
+}
+"hello world".index("world")

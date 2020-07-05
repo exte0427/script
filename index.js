@@ -1,12 +1,22 @@
-/**
- *         Escript
- *     컴파일러 입니다
- * ┌─────────────────────┐
- * │      made by ex     │
- * └─────────────────────┘
- * 
- */
-
+//code를 정의 하는곳
+const codes=[
+    {
+        //변수선언
+        str:["const <>=<>"],
+        datas:["for(let <data1>=1;<data1><<data2>+1;<data1>++){","for(let <data1>=0;<data1><<data2>.length;<data1>++){","for(let <data1>=<data2>;<data1><<data3>+1;<data1>++){"]
+    },
+    {
+        //반복문
+        str:["repeat <> to <>","repeat <> in <>","repeat <> to <>,<>"],
+        datas:["for(let <data1>=1;<data1><<data2>+1;<data1>++){","for(let <data1>=0;<data1><<data2>.length;<data1>++){","for(let <data1>=<data2>;<data1><<data3>+1;<data1>++){"]
+    },
+];
+const functions=[
+{str:".size",
+replaceStr:".length",
+functionis:`
+//none`},
+];
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
     let returnSTR="";
@@ -14,6 +24,24 @@ String.prototype.strcut = function(a,b){
         returnSTR=returnSTR+this.charAt(i);
     }
     return returnSTR;
+}
+
+String.prototype.index = function(a){
+    let t=a.split(">");
+    let str=this;
+    let th;
+    let first=-1;
+    for(let i=0;i<t.length;i++){
+        th=t[i].split("<")[0];
+        if(first==-1){first=th}
+        if(str.indexOf(th)!=-1){
+            //str=str.replace(th,"");
+        }
+        else{
+            return false;
+        }
+    }
+    return [str.indexOf(first),str.indexOf(th)+th.length-1];
 }
 String.prototype.compare = function(a){
     let t=a.split(">");
@@ -61,23 +89,29 @@ function spaceNum(str){
 }
 
 //컴파일 관련 함수를 불러오는곳
-let str=[];
-function decode(code){
-    while(code.indexOf("&*&*str")!=-1){
-        code=code.replace("&*&*str","ppppppppppdp");
-        let i=code.strcut(code.indexOf("ppppppppppdp")+"ppppppppppdp".length,code.indexOf("&*&*")-1)*1;
-        code=code.replace("ppppppppppdp"+i+"&*&*","`"+str[i]+"`");
-    }
-    return code;
-}
 function stringdel(a){
     let code="";
     let o=0;
     for(let i=0;i<a.length;i++){
+        if(str==undefined){
+            str=[]
+        }
         if(a.charAt(i)=="`"){
             let first=i;
             let j=0;
             for(j=first+1;a.charAt(j)!="`";j++){}
+            let returnSTR="";
+            for(let i=first;i<=j;i++){
+                returnSTR=returnSTR+a.charAt(i);
+            }
+            str.push(returnSTR.replace("<","${").replace(">","}"));
+            code=code+"&*&*str"+o+"&*&*";
+            o++;
+            i=j;
+        }else if(a.charAt(i)==`"`){
+            let first=i;
+            let j=0;
+            for(j=first+1;a.charAt(j)!=`"`;j++){}
             str.push(a.strcut(first,j).replace("<","${").replace(">","}"));
             code=code+"&*&*str"+o+"&*&*";
             o++;
@@ -96,6 +130,15 @@ function stringdel(a){
         else{
             code=code+a.charAt(i);
         }
+    }
+    return code;
+};
+var str=[];
+function decode(code){
+    while(code.indexOf("&*&*str")!=-1){
+        code=code.replace("&*&*str","ppppppppppdp");
+        let i=code.strcut(code.indexOf("ppppppppppdp")+"ppppppppppdp".length,code.indexOf("&*&*")-1)*1;
+        code=code.replace("ppppppppppdp"+i+"&*&*",str[i]);
     }
     return code;
 }
@@ -141,22 +184,6 @@ function compiler(a){
     let returnCode="";
     //--------------------------------------------------------------------------------------------------------------------------
     //@last = 자동으로 위치를 찾아서 넣어줌
-    const codes=[
-        {
-            //repeat a in 1,3 // repeat a in 3 // repeat a==10
-            str:["repeat <> in <>,<>","repeat <> in <>","repeat <>","until <>"],
-            datas:["for(<data1>=<data2>;<data1><<data3>;<data1>++){","for(<data1>=0;<data1><<data2>;<data1>++){","while(<data1>){","while(!<data1>)"]
-        },
-        {
-            str:["wait <>"],
-            datas:["setTimeout(()=>{@last},<data1>*1000);"] //아직 조건문은 안됨
-        },
-        {
-            // a=10
-            str:["<>=<>,<>","<>=<>"],
-            datas:["let <data1>=[<data2>,<data3>];","let <data1>=<data2>;"]
-        }
-    ];
     //--------------------------------------------------------------------------------------------------------------------------
     for(let i=0;i<a.length;i++){
         let returns="";
@@ -165,11 +192,14 @@ function compiler(a){
             for(let pp=0;pp<codes[j].str.length;pp++){
                 if(a[i].compare(codes[j].str[pp])){
                     let d=a[i].data(codes[j].str[pp]);
+                    if(typeof d != "object"){
+                        d=[d];
+                    }
                     let c=codes[j].datas[pp].split("@last")[0];
                     while(c.indexOf("<data")!=-1){
-                        let o=d[c.strcut(c.indexOf("<data")+5,c.indexOf(">")-1)*1-1];
+                        let o=d[c.strcut(c.indexOf("<data")+5,c.indexOf(">")-1)*1-1];              
                         c=c.replace("<data"+c.strcut(c.indexOf("<data")+5,c.indexOf(">")-1),"");
-                        c=c.replace(">",o);
+                        c=c.replace(">",operator(o));
                     }
                     returns=c;
                     br=1;
@@ -222,52 +252,47 @@ function compiler(a){
     returnCode=returnCode.replace("\n","");
     return returnCode;
 }
-function custom(str){
-    let k=true;
-    let now=true;
-    if(str.startsWith("!")){
-        k=false;
-        str=str.replace("!","");
+function operator(dt){
+    for(let i=0;i<functions.length;i++){
+        if(dt.compare(functions[i].str)==true){
+            while(true){
+                if(dt.compare(functions[i].str)!=true){
+                    break;
+                }
+                dt=dt.replace(dt.strcut(dt.index(functions[i].str)[0],dt.index(functions[i].str)[1]),functions[i].replaceStr);
+            }
+        }
     }
-    else if(str.startsWith("false")){
-        k=false;
-        str=str.replace("false ","");
-    }
-    else if(str.startsWith("true")){
-        k=true;
-        str=str.replace("true ","");
-    }
-    else if(str.startsWith("not")){
-        k=false;
-        str=str.replace("not ","");
-    }
-
-
-    if(k==false){
-        if(now==true){
-            return false;
+    let str=dt;
+    let str2="";
+    str=str.split("^").join("**");
+    str=str.split("!").join(" not ");
+    str=str.split(" ");
+    // rev(rev(a)+rev(b))
+    for(let i=0;i<str.length;i++){
+        if(str[i]=="or"){
+            str2=str2+" || ";
+        }else if(str[i]=="and"){
+            str2=str2+" && ";
+        }else if(str[i]=="and"){
+            str2=str2+" && ";
+        }else if(str[i]=="is"){
+            str2=str2+" == ";
+        }else if(str[i]=="not"){
+            if(str2.indexOf(" ! ")==-1){
+                str2=str2+" ! ";
+            }else{
+                str2=str2.replace(" ! ","");
+            }
         }
         else{
-            return true;
+            str2=str2+` ${str[i]} `;
         }
     }
-    else{
-        return now;
-    }
-
+    return str2;
 }
-function operator(dt){
-    const operators=["==","!=","*","/","+","-","^","."];
-    let ystr=[];
-    for(let i=0;i<dt.length;i++){
-        for(let j=0;j<dt.length;j++){
-            
-        }
-    }
-}
+//실행하는곳
 run(`
-wait 1
+repeat a to \`10\`.size
+  log a
 `);
-/**
- * log "hi world"
- */
