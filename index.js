@@ -103,7 +103,11 @@ for(let i=0;i<dd.length;i++){
 dd=dd.join("");
 //end
 fs.writeFile('./compiler.js', dd, 'utf-8', function(err, data) {
-    if (err) throw err;
+    let ooo=fs.readFileSync('./basicCommend.txt', 'utf8');
+    fs.writeFile('./compileExe.js', ooo, 'utf-8', function(err, data) {
+        let ooo=fs.readFileSync('./basicCommend.txt', 'utf8');
+        
+    })
 })
 //필요한 함수를 불러오는 곳
 String.prototype.strcut = function(a,b){
