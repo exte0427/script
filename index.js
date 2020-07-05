@@ -86,7 +86,10 @@ dfsdf=strz+strzz+dfsdf;
 //압축
 let dd=dfsdf.split("\r\n");
 for(let i=0;i<dd.length;i++){
-    if(dd[i].charAt(dd[i].length-2) != ";" && dd[i].charAt(dd[i].length-2) !="}" && dd[i].charAt(dd[i].length-2)!="{"){
+    if(dd[i].indexOf("//")!=-1){
+        dd[i]=dd[i].strcut(0,dd[i].indexOf("//")-1);
+    }
+    if(dd[i].charAt(dd[i].length-1) != ";" && dd[i].charAt(dd[i].length-1) !="}" && dd[i].charAt(dd[i].length-1)!="{"){
         dd[i]=dd[i]+";";
     }
 }
