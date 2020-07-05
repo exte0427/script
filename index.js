@@ -103,10 +103,26 @@ for(let i=0;i<dd.length;i++){
 dd=dd.join("");
 //end
 fs.writeFile('./compiler.js', dd, 'utf-8', function(err, data) {
-    let ooo=fs.readFileSync('./basicCommend.txt', 'utf8');
-    fs.writeFile('./compileExe.js', ooo, 'utf-8', function(err, data) {
-        let ooo=fs.readFileSync('./basicCommend.txt', 'utf8');
-        
+    let ooo=fs.readFileSync('./compiler.js', 'utf8');
+    fs.writeFile('./compileExe.js', ooo+"\n"+`const readline = require("readline");
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+    process.stdout.write("ec >> ");
+    rl.on("line", function(line) {
+        console.clear();
+        if(line.startsWith("compile")){
+            let code=fs.readFileSync(line.replace("compile ",""), 'utf8');
+            run(code);
+    
+        }else{
+            run(line);
+        }
+        process.stdout.write("ec >> ");
+    }).on("close", function() {
+      process.exit();
+    });`, 'utf-8', function(err, data) {
     })
 })
 //필요한 함수를 불러오는 곳
