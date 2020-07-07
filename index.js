@@ -227,7 +227,7 @@ function stringdel(a){
         else if(a.charAt(i)=="#"){
             let first=i;
             let j=0;
-            for(j=first+1;a.charAt(j)!="\n";j++){
+            for(j=first+1;a.charAt(j)!="\r";j++){
                 if(j>=a.length){
                     break;
                 }
@@ -445,6 +445,14 @@ function operator(dt){
             str2=str2+` ${code} `;
         }
     }
+    for(let i=0;i<str2.length;i++){
+        if(str2.charAt(i)==" " && str2.charAt(i+1)==" "){
+            str2=str2.strcut(0,i)+str2.strcut(i+2,str2.length-1);
+        }
+    }
+    if(str2.charAt(0)==" "){str2=str2.strcut(1,str2.length-1);}
+    if(str2.charAt(str2.length-1)==" "){str2=str2.strcut(0,str2.length-2);}
+    console.log(str2)
     return str2;
 }
 //실행하는곳
