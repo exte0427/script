@@ -4,7 +4,6 @@
 .location(<>) = .indexOf(<data1>)
 //none
 ＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃
-oo = d()
-function d(){
-  console.log("a")
-}
+\n
+`\n`
+//none

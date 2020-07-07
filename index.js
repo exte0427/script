@@ -255,8 +255,14 @@ function run(data){
     for(let i=0;i<functions.length;i++){
         strs=strs+functions[i].functionis+"\n";
     }
+    data=data.split("\n");
+    data.map(a=>{
+        if(a.charAt(a.length-2)==":"){
+            data[data.indexOf(a)]=data[data.indexOf(a)].strcut(0,data[data.indexOf(a)].length-3)+"\r\n";
+        }
+    });
     eval(strs);
-    return eval(decode(compiler(transform(stringdel(data)).split("\n"))));
+    return eval(decode(compiler(transform(stringdel(data.join("").split("\n").join("\n"))).split("\n"))));
 }
 function transform(data){
     data="\n"+data+"\n"
@@ -363,7 +369,7 @@ function compiler(a){
     return returnCode;
 }
 function operator(dt){
-    for(let i=0;i<functions.length;i++){
+    /*for(let i=0;i<functions.length;i++){
         if(dt.compare(functions[i].str)==true){
             while(true){
                 if(dt.compare(functions[i].str)!=true){
@@ -375,12 +381,17 @@ function operator(dt){
                     if(strr.indexOf("<data")==-1){
                         break;
                     }
-                    strr=strr.replace("<data"+s+">",dt.data(functions[i].str)[s]);
+                    strr=strr.replace("<data"+s+">",operator(dt.data(functions[i].str)[s]));
                     s++;
                 }
                 dt=dt.replace(dt.strcut(dt.index(functions[i].str)[0],dt.index(functions[i].str)[1]),strr);
             }
         }
+    }*/
+    let d=["+","-","*","/","**","%"];
+    for(let i=0;i<d.length;i++){
+        if(dt.indexOf(d[i])>dt.indexOf("&*&*")-1 && dt.indexOf(d[i])<dt.indexOf("&*&*")+4){}
+        else{dt=dt.replace(dt.charAt(dt.indexOf(d[i])),` ${dt.charAt(dt.indexOf(d[i]))} `)}
     }
     let str=dt;
     let str2="";
@@ -394,7 +405,7 @@ function operator(dt){
         }else if(str[i]=="and"){
             str2=str2+" && ";
         }else if(str[i]=="and"){
-            str2=str2+" && ";
+            str2=str2+"&&";
         }else if(str[i]=="is"){
             str2=str2+" == ";
         }else if(str[i]=="not"){
@@ -403,14 +414,17 @@ function operator(dt){
             }else{
                 str2=str2.replace(" ! ","");
             }
+        }else if(d.indexOf(str[i])!=-1){
+            str2=str2+` ${str[i]} `;
         }
         else{
+            for(let i=0;i<functions.length;i++){
+                
+            }
             str2=str2+` ${str[i]} `;
         }
     }
     return str2;
 }
 //실행하는곳
-run(`
-\`10\`.size
-`);
+run(fs.readFileSync("./code.ec","utf-8"));
