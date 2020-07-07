@@ -418,10 +418,31 @@ function operator(dt){
             str2=str2+` ${str[i]} `;
         }
         else{
+            let code=str[i];
             for(let i=0;i<functions.length;i++){
-                
+                if(code.compare(functions[i].str)==true){
+                    if(functions[i].replaceStr.indexOf("<data1>")!=-1){
+                        while(true){
+                            if(code.compare(functions[i].str)!=true){
+                                break;
+                            }
+                            let strr=functions[i].replaceStr;
+                            let s=1;
+                            while(true){
+                                if(strr.indexOf("<data")==-1){
+                                    break;
+                                }
+                                strr=strr.replace("<data"+s+">",operator(code.data(functions[i].str)[s]));
+                                s++;
+                            }
+                            code=code.replace(code.strcut(code.index(functions[i].str)[0],code.index(functions[i].str)[1]),strr);
+                        }
+                    }else{
+                        code=code.replace(functions[i].str,functions[i].replaceStr);
+                    }
+                }
             }
-            str2=str2+` ${str[i]} `;
+            str2=str2+` ${code} `;
         }
     }
     return str2;

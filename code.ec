@@ -1,1 +1,1 @@
-log `dsss`+`asd`
+log `dsss`+`asd`+\n
